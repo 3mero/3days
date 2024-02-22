@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html dir="rtl">
+
 <head>
     <style>
         /* تطبيق لون النص الأحمر على الأرقام من 1 إلى 4 في الشهر الأول */
-        td:nth-of-type(1):nth-last-of-type(-n+4) { color: red; } /* أيام 1، 2، 3، 4 */
+        td:nth-of-type(1):nth-last-of-type(-n+4) {
+            color: red;
+        }
+
         /* تطبيق لون النص الأسود على الأرقام في الأيام الأخرى */
         td {
-            border: 1px solid red; /* تعيين لون الحدود لصناديق الأيام */
+            border: 2px solid black;
+            /* تعيين لون الحدود لصناديق الأيام */
             padding: 10px;
             text-align: center;
-            color: black; /* تعيين لون النص إلى الأسود */
-            background-color: #ababab  ; /* تغيير لون خلفية الصناديق التي تحتوي على أرقام الأيام */
+            color: black;
+            /* تعيين لون النص إلى الأسود */
+            background-color: #ababab;
+            /* تغيير لون خلفية الصناديق التي تحتوي على أرقام الأيام */
+            font-weight: bold;
+            /* جعل الأرقام عريضة */
         }
-        
+
         body {
-            background-color:  #4d4d4f  ; /* تعيين لون خلفية الجدول */
+            background-color: #4d4d4f;
+            /* تعيين لون خلفية الجدول */
             color: #fff;
             font-family: Arial, sans-serif;
         }
@@ -23,8 +33,10 @@
             border-collapse: collapse;
             width: 100%;
             margin-bottom: 20px;
-            border: 2px solid #0f0; /* تعيين لون الخطوط للتقويم */
-            background-color: #111; /* تغيير لون خلفية الايام والشهر باللون الاسود */
+            border: 2px solid #0f0;
+            /* تعيين لون الخطوط للتقويم */
+            background-color: #111;
+            /* تغيير لون خلفية الايام والشهر باللون الاسود */
         }
 
         #photo {
@@ -33,7 +45,9 @@
         }
 
         .today {
-            background-color: #4caf50;
+            border: 5px solid #4caf50;
+            /* تعيين لون الحدود فقط بلون أخضر */
+
         }
 
         .selected {
@@ -45,13 +59,14 @@
         }
 
         button {
-            margin: 10px;
-            padding: 8px 16px;
-            background-color: #4caf50;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            border-radius: 4px;
+    margin: 10px;
+    padding: 16px 32px; /* زيادة الارتفاع والعرض لتكبير الزر */
+    background-color: #4caf50;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 24px; /* زيادة حجم الخط */
         }
 
         button:hover {
@@ -71,197 +86,261 @@
         .dark {
             background-color: #111;
         }
-      th {
-    color: #0f0; /* تغيير لون النص إلى الأخضر */
-    font-weight: bold; /* جعل النص عريضا */
-    font-size: 18px; /* تكبير حجم النص */
-}
-#footer {
+
+        th {
+            color: #0f0;
+            /* تغيير لون النص إلى الأخضر */
+            font-weight: bold;
+            /* جعل النص عريضا */
+            font-size: 25px;
+            /* تكبير حجم النص */
+        }
+
+        #footer {
     text-align: center;
-    margin-top: 20px; /* توسيط النص في الوسط */
-    position: relative; /* تمكين التغييرات النسبية */
-}
+    margin-top: 20px;
+    position: absolute; /* تمكين التوضيب المطلق */
+    bottom: 20; /* تحديد المسافة من الأسفل */
+    width: 100%; /* تعيين عرض القدم */
+        }
 
-#footer .glow {
-    font-size: 20px; /* حجم الخط */
-    cursor: pointer;
-}
+        #footer .glow {
+            font-size: 20px;
+            /* حجم الخط */
+            cursor: pointer;
+        }
 
-.glow::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 80%);
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
+        #footer .glow:hover {
+            color: red;
+            /* تغيير لون النص عند تمرير المؤشر عليه */
+        }
 
-.glow:hover::after {
-    opacity: 1;
-}
+        .glow::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 80%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
 
+        .glow:hover::after {
+            opacity: 1;
+        }
     </style>
 </head>
+
 <body>
 
-<h2 style="text-align: center;">مرحبًا، قم بتحديد يوم عملك في الجدول الأول (في الايام الاولى المشار إليها "<span style="color: red;">باللون الاحمر</span>" من تاريخ 1 الى  4 ) من الشهر الحالي بهدف اظهار جميع أيام عملك خلال شهرين بناءً على جدول عمل 1 يوم واجازة 3 أيام.</h2>
-<div id="calendar"></div>
-<button onclick="takeshot()">التقاط الصورة</button>
-<div id="output"></div>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
-<script>
-    // استدعاء دالة إنشاء التقويم عند تحميل الصفحة
-    window.onload = function() {
-        createCalendar();
-    };
+    <h2 style="text-align: center;">مرحبًا، قم بتحديد يوم عملك في الجدول الأول (في الايام الاولى المشار إليها "<span style="color: red;">باللون الاحمر</span>" من تاريخ 1 الى 4 ) من الشهر الحالي بهدف اظهار جميع أيام عملك خلال شهرين بناءً على جدول عمل 1 يوم واجازة 3 أيام.</h2>
+    <div id="calendar"></div>
+    <div id="container" style="display: flex; flex-direction: column; align-items: center;">
+        <!-- عنصر التاريخ -->
+        <div id="currentDate" style="margin-bottom: 20px; color: red; font-size: 24px;"></div>
 
-    // إنشاء تقويم للشهر الحالي والشهر التالي
-    function createCalendar() {
-        // إنشاء عنصر div لحاوية التقويم
-        var container = document.getElementById("calendar");
-        // إنشاء تقويمين للشهر الحالي والشهر التالي
-        for (var i = 0; i < 2; i++) {
+        <!-- الجدولين -->
+        <div id="calendar"></div>
+    </div>
+
+    <div id="buttons-container" style="text-align: center;">
+        <button onclick="takeshot()">حفظ الصفحة كـ صورة</button>
+    </div>
+
+    <div id="output"></div>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+
+    <div id="calendar"></div>
+    <script>
+        // استدعاء دالة إنشاء التقويم عند تحميل الصفحة
+        window.onload = function () {
+            createCalendar();
+            updateCurrentDate(); // استدعاء دالة تحديث التاريخ
+        };
+
+        // دالة تحديث التاريخ الحالي
+        function updateCurrentDate() {
             var currentDate = new Date();
-            var currentMonth = currentDate.getMonth() + i;
-            var currentYear = currentDate.getFullYear();
-            // الحصول على عدد الأيام في الشهر
-            var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-            // الحصول على يوم الأسبوع الأول في الشهر
-            var firstDay = new Date(currentYear, currentMonth, 1).getDay();
-            // إنشاء جدول HTML للتقويم
-            var table = document.createElement("table");
-            // إنشاء صف لاسم الشهر
-            var tr = document.createElement("tr");
-            var th = document.createElement("th");
-            th.colSpan = 7;
-            var months = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
-            th.innerText = months[currentMonth];
-            tr.appendChild(th);
-            table.appendChild(tr);
-            // إنشاء صف للأيام الأسبوع
-            var tr = document.createElement("tr");
-            var days = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
-            for (var j = 0; j < 7; j++) {
-                var th = document.createElement("th");
-                th.innerText = days[j];
-                tr.appendChild(th);
-            }
-            table.appendChild(tr);
-            // إنشاء صفوف وخلايا للأيام
-            var day = 1;
-            for (var k = 0; k < 6; k++) {
+            var options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+            var formattedDate = currentDate.toLocaleDateString('ar-MA', options);
+            document.getElementById("currentDate").innerText = formattedDate; // تحديث العنصر النصي بالتاريخ الجديد
+        }
+        // إنشاء تقويم للشهر الحالي والشهر التالي
+        function createCalendar() {
+            // إنشاء عنصر div لحاوية التقويم
+            var container = document.getElementById("calendar");
+            // إنشاء تقويمين للشهر الحالي والشهر التالي
+            for (var i = 0; i < 2; i++) {
+                var currentDate = new Date();
+                var currentMonth = currentDate.getMonth() + i;
+                var currentYear = currentDate.getFullYear();
+                // الحصول على عدد الأيام في الشهر
+                var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+                // الحصول على يوم الأسبوع الأول في الشهر
+                var firstDay = new Date(currentYear, currentMonth, 1).getDay();
+                // إنشاء جدول HTML للتقويم
+                var table = document.createElement("table");
+                // إنشاء صف لاسم الشهر
                 var tr = document.createElement("tr");
-                for (var l = 0; l < 7; l++) {
-                    var td = document.createElement("td");
-                    if (k == 0 && l < firstDay) {
-                        // خلية فارغة
-                        td.innerText = "";
-                    } else if (day > daysInMonth) {
-                        // خلية فارغة
-                        td.innerText = "";
-                    } else {
-                        // خلية تحتوي على رقم اليوم
-                        td.innerText = day;
-                        // إضافة معرف للخلية
-                        td.id = "month" + currentMonth + "day" + day;
-                        // تلوين الأرقام 1 و 2 و 3 و 4 من التقويم للشهر الأول باللون الأحمر
-                        if (i === 0 && (day >= 1 && day <= 4)) {
-                            td.style.color = "red";
-                        }
-                        // إضافة حدث للنقر على الخلية
-                        td.onclick = function() {
-                            selectDay(this);
-                        };
-                        // تحديد اليوم الحالي باللون الأخضر
-                        if (i === 0 && day === new Date().getDate() && currentMonth === new Date().getMonth()) {
-                            td.className = "today";
-                        }
-                        day++;
-                    }
-                    tr.appendChild(td);
+                var th = document.createElement("th");
+                th.colSpan = 7;
+                var months = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
+                th.innerText = months[currentMonth];
+                tr.appendChild(th);
+                table.appendChild(tr);
+                // إنشاء صف للأيام الأسبوع
+                var tr = document.createElement("tr");
+                var days = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+                for (var j = 0; j < 7; j++) {
+                    var th = document.createElement("th");
+                    th.innerText = days[j];
+                    tr.appendChild(th);
                 }
                 table.appendChild(tr);
+                // إنشاء صفوف وخلايا للأيام
+                var day = 1;
+                for (var k = 0; k < 6; k++) {
+                    var tr = document.createElement("tr");
+                    for (var l = 0; l < 7; l++) {
+                        var td = document.createElement("td");
+                        if (k == 0 && l < firstDay) {
+                            // خلية فارغة
+                            td.innerText = "";
+                        } else if (day > daysInMonth) {
+                            // خلية فارغة
+                            td.innerText = "";
+                        } else {
+                            // خلية تحتوي على رقم اليوم
+                            td.innerText = day;
+                            // إضافة معرف للخلية
+                            td.id = "month" + currentMonth + "day" + day;
+                            // تلوين الأرقام 1 و 2 و 3 و 4 من التقويم للشهر الأول باللون الأحمر
+                            if (i === 0 && (day >= 1 && day <= 4)) {
+                                td.style.color = "red";
+                            }
+                            // إضافة حدث للنقر على الخلية
+                            td.onclick = function () {
+                                selectDay(this);
+                            };
+                            // تحديد اليوم الحالي باللون الأخضر
+                            if (i === 0 && day === new Date().getDate() && currentMonth === new Date().getMonth()) {
+                                td.className = "today";
+                            }
+                            day++;
+                        }
+                        tr.appendChild(td);
+                    }
+                    table.appendChild(tr);
+                }
+                // إضافة الجدول إلى الحاوية
+                container.appendChild(table);
             }
-            // إضافة الجدول إلى الحاوية
-            container.appendChild(table);
         }
-    }
 
-    // تحديد يوم معين واليوم الرابع بعده وكذلك بقية الأيام بنفس الترتيب
-    function selectDay(cell) {
-        // إزالة التحديد السابق
-        var selected = document.getElementsByClassName("selected");
-        while (selected.length > 0) {
-            selected[0].classList.remove("selected");
-        }
-        // إزالة تظليل أيام العمل السابقة
-        var workdays = document.getElementsByClassName("workday");
-        while (workdays.length > 0) {
-            workdays[0].classList.remove("workday");
-        }
-        // تحديد الخلية المنقرة باللون الأصفر
-        cell.classList.add("selected");
-        // الحصول على رقم الشهر واليوم المنقر
-        var id = cell.id;
-        var month = parseInt(id.substring(5, 6));
-        var day = parseInt(id.substring(9));
-        // تحديد اليوم الرابع بعده باللون الأصفر في كل الجدولين
-        for (var i = 0; i < 2; i++) {
-            var next = document.getElementById("month" + (new Date().getMonth() + i) + "day" + (day + 4));
-            if (next) {
-                next.classList.add("selected");
+        // تحديد يوم معين واليوم الرابع بعده وكذلك بقية الأيام بنفس الترتيب
+        function selectDay(cell) {
+            // إزالة التحديد السابق
+            var selected = document.getElementsByClassName("selected");
+            while (selected.length > 0) {
+                selected[0].classList.remove("selected");
             }
-        }
-        // تظليل أيام العمل باللون الأزرق في كل الجدولين
-        var workday = day;
-        while (workday <= 31) {
+            // إزالة تظليل أيام العمل السابقة
+            var workdays = document.getElementsByClassName("workday");
+            while (workdays.length > 0) {
+                workdays[0].classList.remove("workday");
+            }
+            // تحديد الخلية المنقرة باللون الأصفر
+            cell.classList.add("selected");
+            // الحصول على رقم الشهر واليوم المنقر
+            var id = cell.id;
+            var month = parseInt(id.substring(5, 6));
+            var day = parseInt(id.substring(9));
+            // تحديد اليوم الرابع بعده باللون الأصفر في كل الجدولين
             for (var i = 0; i < 2; i++) {
-                var cell = document.getElementById("month" + (new Date().getMonth() + i) + "day" + workday);
-                if (cell) {
-                    cell.classList.add("workday");
+                var next = document.getElementById("month" + (new Date().getMonth() + i) + "day" + (day + 4));
+                if (next) {
+                    next.classList.add("selected");
                 }
             }
-            workday += 4;
+            // تظليل أيام العمل باللون الأزرق في كل الجدولين
+            var workday = day;
+            while (workday <= 31) {
+                for (var i = 0; i < 2; i++) {
+                    var cell = document.getElementById("month" + (new Date().getMonth() + i) + "day" + workday);
+                    if (cell) {
+                        cell.classList.add("workday");
+                    }
+                }
+                workday += 4;
+            }
         }
-    }
 
-    // تغيير الألوان إلى الوضع الداكن
-    function toggleDarkMode() {
-        document.body.classList.toggle("dark");
-    }
+        // تغيير الألوان إلى الوضع الداكن
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark");
+        }
 
-    // Define the function 
-    // to screenshot the div
-    function takeshot() {
-        let div =
-            document.getElementById('calendar');
+        // Define the function 
+        // to screenshot the div
+// Define the function to screenshot the div
+// Define the function to screenshot the div
+function takeshot() {
+    let div = document.getElementById('calendar');
 
-        // Use the html2canvas
-        // function to take a screenshot
-        // and append it
-        // to the output div
-        html2canvas(div).then(
-            function (canvas) {
-                // Save the screenshot
-                canvas.toBlob(function(blob) {
-                    saveAs(blob, "calendar_screenshot.png");
-                });
-            })
-    }
-  function toggleGlow() {
-    var glowElement = document.querySelector('#footer .glow');
-    glowElement.classList.toggle('glow-active');
+    // Use the html2canvas function to take a screenshot and append it to the output div
+    html2canvas(div).then(
+        function (canvas) {
+            // Add the current date to the image
+            var currentDate = new Date();
+            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+            var formattedDate = currentDate.toLocaleDateString('ar-MA', options);
+            var context = canvas.getContext('2d');
+            context.font = 'bold 20px Arial';
+            context.fillStyle = ' #900C3F';
+            context.fillText(formattedDate, canvas.width / 2, canvas.height - 197); // Adding the date at the bottom center
+            
+            // Add custom text
+            var customText = "تم حفظ الصورة في " + formattedDate;
+            context.font = 'bold 20px Arial';
+            context.fillStyle = 'red'; // Set color to red
+            context.textAlign = 'center'; // Center the text
+            context.fillText(customText, canvas.width / 2, 50); // Add the custom text at the top center
+            
+            // Save the screenshot
+            canvas.toBlob(function(blob) {
+                saveAs(blob, formattedDate + ".jpg"); // Naming the image with the current date
+            });
+        }
+    );
 }
 
-</script>
-      <div id="footer">
-    <p> </p>
-    <div class="glow" onclick="toggleGlow()">Editor by Omar.k.h Abu ziad</div>
-</div>
+
+
+        function toggleGlow() {
+            var glowElement = document.querySelector('#footer .glow');
+            glowElement.classList.toggle('glow-active');
+        }
+    </script>
+    <div id="footer">
+        <p> </p>
+      <p> </p>        <p> </p>
+      <p> </p>        <p> </p>
+      <p> </p>
+      
+        <p> </p>
+            <p> </p>
+            <p> </p>
+        <div class="glow" onclick="toggleGlow()">Editor by Omar.k.h Abu ziad</div>
+    </div>
 </body>
+
 </html>
