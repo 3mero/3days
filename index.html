@@ -161,6 +161,7 @@
             createCalendar();
             updateCurrentDate(); // استدعاء دالة تحديث التاريخ
         };
+      
 
         // دالة تحديث التاريخ الحالي
         function updateCurrentDate() {
@@ -247,47 +248,55 @@
         }
 
         // تحديد يوم معين واليوم الرابع بعده وكذلك بقية الأيام بنفس الترتيب
-        function selectDay(cell) {
-            // إزالة التحديد السابق
-            var selected = document.getElementsByClassName("selected");
-            while (selected.length > 0) {
-                selected[0].classList.remove("selected");
-            }
-            // إزالة تظليل أيام العمل السابقة
-            var workdays = document.getElementsByClassName("workday");
-            while (workdays.length > 0) {
-                workdays[0].classList.remove("workday");
-            }
-            // تحديد الخلية المنقرة باللون الأصفر
-            cell.classList.add("selected");
-            // الحصول على رقم الشهر واليوم المنقر
-            var id = cell.id;
-            var month = parseInt(id.substring(5, 6));
-            var day = parseInt(id.substring(9));
-            // تحديد اليوم الرابع بعده باللون الأصفر في كل الجدولين
-            for (var i = 0; i < 2; i++) {
-                var next = document.getElementById("month" + (new Date().getMonth() + i) + "day" + (day + 4));
-                if (next) {
-                    next.classList.add("selected");
-                }
-            }
-            // تظليل أيام العمل باللون الأزرق في كل الجدولين
-            var workday = day;
-            while (workday <= 31) {
-                for (var i = 0; i < 2; i++) {
-                    var cell = document.getElementById("month" + (new Date().getMonth() + i) + "day" + workday);
-                    if (cell) {
-                        cell.classList.add("workday");
-                    }
-                }
-                workday += 4;
+          function selectDay(cell) {
+    // التحقق مما إذا كان لون النص باللون الأحمر
+    var isRed = cell.style.color === "red";
+    // إذا كان اللون أحمر، فقم بتحديد الأيام المقابلة في الجدول
+    if (isRed) {
+        // إزالة التحديد السابق
+        var selected = document.getElementsByClassName("selected");
+        while (selected.length > 0) {
+            selected[0].classList.remove("selected");
+        }
+        // إزالة تظليل أيام العمل السابقة
+        var workdays = document.getElementsByClassName("workday");
+        while (workdays.length > 0) {
+            workdays[0].classList.remove("workday");
+        }
+        // تحديد الخلية المنقرة باللون الأصفر
+        cell.classList.add("selected");
+        // الحصول على رقم الشهر واليوم المنقر
+        var id = cell.id;
+        var month = parseInt(id.substring(5, 6));
+        var day = parseInt(id.substring(9));
+        // تحديد اليوم الرابع بعده باللون الأصفر في كل الجدولين
+        for (var i = 0; i < 2; i++) {
+            var next = document.getElementById("month" + (new Date().getMonth() + i) + "day" + (day + 4));
+            if (next) {
+                next.classList.add("selected");
             }
         }
+        // تظليل أيام العمل باللون الأزرق في كل الجدولين
+        var workday = day;
+        while (workday <= 31) {
+            for (var i = 0; i < 2; i++) {
+                var cell = document.getElementById("month" + (new Date().getMonth() + i) + "day" + workday);
+                if (cell) {
+                    cell.classList.add("workday");
+                }
+            }
+            workday += 4;
+        }
+    }
+}
+
+
 
         // تغيير الألوان إلى الوضع الداكن
         function toggleDarkMode() {
             document.body.classList.toggle("dark");
         }
+      
 
         // Define the function 
         // to screenshot the div
@@ -334,13 +343,9 @@ function takeshot() {
         <p> </p>
       <p> </p>        <p> </p>
       <p> </p>        <p> </p>
-      <p> </p>
-      
-        <p> </p>
-            <p> </p>
-            <p> </p>
         <div class="glow" onclick="toggleGlow()">Editor by Omar.k.h Abu ziad</div>
-              
+              <p> </p>
+      
         <p> </p>
             <p> </p>
             <p> </p>
