@@ -10,7 +10,7 @@
 
         /* تطبيق لون النص الأسود على الأرقام في الأيام الأخرى */
         td {
-            border: 3px solid black;
+            border: 2px solid black;
             /* تعيين لون الحدود لصناديق الأيام */
             padding: 10px;
             text-align: center;
@@ -19,7 +19,8 @@
             background-color: #ababab;
             /* تغيير لون خلفية الصناديق التي تحتوي على أرقام الأيام */
             font-weight: bold; /* جعل الأرقام عريضة */
-            font-size: 24px; /* زيادة حجم الخط */
+            font-size: 15px; /* زيادة حجم الخط */
+          
         }
 
         body {
@@ -28,7 +29,7 @@
             color: #fff;
             font-family: Arial, sans-serif;
         }
-
+ 
         table {
             border-collapse: collapse;
             width: 100%;
@@ -131,6 +132,8 @@
         .glow:hover::after {
             opacity: 1;
         }
+    }
+
     </style>
 </head>
 
@@ -290,8 +293,6 @@
     }
 }
 
-
-
         // تغيير الألوان إلى الوضع الداكن
         function toggleDarkMode() {
             document.body.classList.toggle("dark");
@@ -304,35 +305,29 @@
 // Define the function to screenshot the div
 function takeshot() {
     let div = document.getElementById('calendar');
-
-    // Use the html2canvas function to take a screenshot and append it to the output div
+      // Use the html2canvas function to take a screenshot and append it to the output div
     html2canvas(div).then(
         function (canvas) {
             // Add the current date to the image
             var currentDate = new Date();
-            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'};
             var formattedDate = currentDate.toLocaleDateString('ar-MA', options);
             var context = canvas.getContext('2d');
-            context.font = 'bold 20px Arial';
-            context.fillStyle = ' #900C3F';
-            context.fillText(formattedDate, canvas.width / 2, canvas.height - 197); // Adding the date at the bottom center
-            
+
             // Add custom text
-            var customText = "تم حفظ الصورة في " + formattedDate;
+            var customText = "تم حفظ الصورة في يوم " + formattedDate;
             context.font = 'bold 20px Arial';
             context.fillStyle = 'red'; // Set color to red
             context.textAlign = 'center'; // Center the text
-            context.fillText(customText, canvas.width / 2, 50); // Add the custom text at the top center
+            context.fillText(customText, canvas.width / 2, 410); // Add the custom text at the top center
             
             // Save the screenshot
             canvas.toBlob(function(blob) {
-                saveAs(blob, formattedDate + ".jpg"); // Naming the image with the current date
+                saveAs(blob, formattedDate + ".png"); // Naming the image with the current date
             });
         }
     );
 }
-
-
 
         function toggleGlow() {
             var glowElement = document.querySelector('#footer .glow');
@@ -344,12 +339,10 @@ function takeshot() {
       <p> </p>        <p> </p>
       <p> </p>        <p> </p>
         <div class="glow" onclick="toggleGlow()">Editor by Omar.k.h Abu ziad</div>
-              <p> </p>
+      </div>
+    <p> </p>        <p> </p>
+      <p> </p>        <p> </p>
       
-        <p> </p>
-            <p> </p>
-            <p> </p>
-    </div>
-</body>
 
+</body>
 </html>
